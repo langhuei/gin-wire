@@ -1,0 +1,30 @@
+version: "3.3"
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=dell123
+    volumes:
+      - ./mysql/mysql.cnf:/etc/mysql/conf.d/my.cnf:ro
+      - ./mysql/create.sql:/data/application/init.sql
+    logging:
+      options:
+        max-size: "50mb"
+    ports:
+      - "3306:3306"
+    restart: always
+
+  redis:
+    image: redis:5.0.7
+    container_name: redis
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: "redis-server /usr/local/etc/redis/redis.conf"
+    logging:
+      options:
+        max-size: "50mb"
+    ports:
+      - "6379:6379"
+    restart: always
